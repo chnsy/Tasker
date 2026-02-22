@@ -7,11 +7,7 @@
              Title="Tasker"
              BackgroundColor="{StaticResource PageBackground}">
 
-    <ContentPage.BindingContext>
-        <vm:MainViewModel/>
-    </ContentPage.BindingContext>
-
-    <!-- DataTemplates for this page -->
+    <!-- DataTemplates -->
     <ContentPage.Resources>
         <DataTemplate x:Key="CategoryTemplate" x:DataType="model:Category">
             <Grid Padding="5" HeightRequest="140" WidthRequest="165">
@@ -45,9 +41,8 @@
                               CheckedChanged="checkBox_CheckedChanged"
                               Color="{Binding TaskColor}"/>
                     <Label Text="{Binding TaskName}"
-                           StyleClass="DarkBlue, CardTitle"
-                           VerticalOptions="Center"
-                           HorizontalOptions="FillAndExpand">
+                           StyleClass="White, CardTitle"
+                           VerticalOptions="Center" >
                         <Label.Triggers>
                             <DataTrigger Binding="{Binding Completed}"
                                          TargetType="Label"
@@ -86,7 +81,7 @@
                             ItemTemplate="{StaticResource TaskTemplate}"/>
         </Grid>
 
-        <!-- FAB -->
+        <!-- Add New Task button -->
         <Button Grid.Row="2"
                 Text="+"
                 Style="{StaticResource CircularButton}"

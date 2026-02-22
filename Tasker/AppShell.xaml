@@ -4,11 +4,22 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Tasker"
-    Title="Tasker">
+    xmlns:views="clr-namespace:Tasker.MVVM.Views"
+    Title="Tasker"
+    Shell.NavBarIsVisible="False">
 
+
+    <!-- Splash is the first page -->
+    <ShellContent 
+        Title="SplashAnimation"
+        ContentTemplate="{DataTemplate views:SplashView}"
+        Route="SplashView"/>
+
+    <!-- Main page registered as a route -->
     <ShellContent
         Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        ContentTemplate="{DataTemplate views:MainView}"
+        Route="MainView" />
+    
 
 </Shell>

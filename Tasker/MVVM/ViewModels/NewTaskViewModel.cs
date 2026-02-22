@@ -10,7 +10,7 @@ namespace Tasker.MVVM.ViewModels
     [AddINotifyPropertyChangedInterface]
     public class NewTaskViewModel
     {
-        public string TaskName { get; set; } = string.Empty;
+        public string TaskName { get; set; } 
         public ObservableCollection<Category> Categories { get; set; } = new();
 
         public ICommand AddTaskCommand { get; set; }
@@ -29,9 +29,11 @@ namespace Tasker.MVVM.ViewModels
 
         private async void AddTask()
         {
+            // Dapat naka select category and naay task name
             var selectedCategory = Categories.FirstOrDefault(c => c.IsSelected);
             if (selectedCategory == null || string.IsNullOrWhiteSpace(TaskName)) return;
 
+            // Create new task with selected category info
             var newTask = new MyTask
             {
                 TaskName = TaskName,
@@ -40,13 +42,15 @@ namespace Tasker.MVVM.ViewModels
                 TaskColor = selectedCategory.Color
             };
 
+            // Add task
             _mainViewModel.Tasks.Add(newTask);
             _mainViewModel.UpdateData();
 
+            // Reset form fields
             TaskName = string.Empty;
             foreach (var c in Categories) c.IsSelected = false;
 
-            // .NET 9 recommended way
+            // Go back to MainView
             if (Application.Current?.Windows[0].Page is Page page)
                 await page.Navigation.PopAsync();
         }
@@ -60,6 +64,7 @@ namespace Tasker.MVVM.ViewModels
                 "New Category", "Enter category name:");
             if (string.IsNullOrWhiteSpace(name)) return;
 
+            // Create category with a random color
             var newCategory = new Category
             {
                 Id = _mainViewModel.Categories.Count + 1,
@@ -71,6 +76,7 @@ namespace Tasker.MVVM.ViewModels
             _mainViewModel.Categories.Add(newCategory);
         }
 
+        // Generate random hex color
         private string GetRandomColor()
         {
             var random = new Random();

@@ -10,6 +10,7 @@ public partial class NewTaskView : ContentPage
         BindingContext = new NewTaskViewModel(mainViewModel);
     }
 
+    // Back to MainView
     private async void BackButton_Clicked(object sender, EventArgs e)
     {
         await Navigation.PopAsync();

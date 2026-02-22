@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Tasker.MVVM.Views.SplashView"
+             BackgroundColor="{StaticResource DarkBlue}"
+             Shell.NavBarIsVisible="False">
+
+    <VerticalStackLayout HorizontalOptions="Center"
+                         VerticalOptions="Center"
+                         Spacing="16">
+
+        <!-- App Icon -->
+        <Image x:Name="IconLabel"
+               Source="tsektaskw.png"
+               HorizontalOptions="Center"
+               Opacity="0"/>
+
+        <!-- App Name -->
+        <Label x:Name="TitleLabel"
+               Text="TsekTask"
+               FontSize="36"
+               FontAttributes="Bold"
+               TextColor="White"
+               HorizontalOptions="Center"
+               Opacity="0"/>
+
+        <!-- Tagline -->
+        <Label x:Name="SubLabel"
+               Text="Stay organized. Stay focused."
+               FontSize="14"
+               TextColor="{StaticResource White}"
+               HorizontalOptions="Center"
+               Opacity="0"/>
+
+    </VerticalStackLayout>
+</ContentPage>

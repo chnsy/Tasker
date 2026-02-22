@@ -16,6 +16,7 @@ namespace Tasker.MVVM.ViewModels
             FillData();
         }
 
+        //Sample data
         private void FillData()
         {
             Categories = new ObservableCollection<Category>
@@ -43,16 +44,19 @@ namespace Tasker.MVVM.ViewModels
         {
             foreach (var c in Categories)
             {
+                // Filter tasks belonging to this category
                 var tasks = Tasks.Where(t => t.CategoryId == c.Id);
                 var completed = tasks.Where(t => t.Completed);
                 var pending = tasks.Where(t => !t.Completed);
 
+                // Update pending count and progress percentage
                 c.PendingTasks = pending.Count();
                 c.Percentage = tasks.Any() ? (float)completed.Count() / tasks.Count() : 0f;
             }
 
             foreach (var t in Tasks)
             {
+                // Assign task color
                 t.TaskColor = Categories
                     .FirstOrDefault(c => c.Id == t.CategoryId)?.Color ?? string.Empty;
             }
