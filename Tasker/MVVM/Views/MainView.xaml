@@ -1,62 +1,95 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Tasker.MVVM.ViewModels"
+             xmlns:model="clr-namespace:Tasker.MVVM.Models"
              x:Class="Tasker.MVVM.Views.MainView"
-             Title="Tasker">
-    <Grid Margin="15" RowDefinitions="0.1*,0.3*,0.7*">
-        <Label Text="My Tasks" StyleClass="DarkBlue, Header"/>
-        <Grid Grid.Row="1" RowDefinitions="0.2*,0.8* ">
-            <Label StyleClass="LightBlue, SubHeader" Text="CATEGORIES"/>
-            <CollectionView Grid.Row="1" ItemsSource="{Binding Categories}">
+             Title="Tasker"
+             BackgroundColor="{StaticResource PageBackground}">
+
+    <ContentPage.BindingContext>
+        <vm:MainViewModel/>
+    </ContentPage.BindingContext>
+
+    <!-- DataTemplates for this page -->
+    <ContentPage.Resources>
+        <DataTemplate x:Key="CategoryTemplate" x:DataType="model:Category">
+            <Grid Padding="5" HeightRequest="140" WidthRequest="165">
+                <RoundRectangle/>
+                <VerticalStackLayout Padding="18" Spacing="8">
+                    <Label Text="{Binding PendingTasks, StringFormat='{0} Tasks'}"
+                           StyleClass="LightBlue"/>
+                    <Label Text="{Binding CategoryName}"
+                           StyleClass="CardTitle"
+                           TextColor="White"
+                           LineBreakMode="WordWrap"/>
+                    <VerticalStackLayout Spacing="4" Margin="0,4,0,0">
+                        <Label Text="Progress"
+                               FontSize="10"
+                               TextColor="{StaticResource LightBlue}"/>
+                        <ProgressBar Progress="{Binding Percentage}"
+                                     ProgressColor="{Binding Color}"
+                                     BackgroundColor="{StaticResource ProgressTrack}"
+                                     HeightRequest="6"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TaskTemplate" x:DataType="model:MyTask">
+            <Frame Style="{StaticResource TaskCard}">
+                <HorizontalStackLayout Spacing="14">
+                    <CheckBox x:Name="checkBox"
+                              IsChecked="{Binding Completed}"
+                              VerticalOptions="Center"
+                              CheckedChanged="checkBox_CheckedChanged"
+                              Color="{Binding TaskColor}"/>
+                    <Label Text="{Binding TaskName}"
+                           StyleClass="DarkBlue, CardTitle"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand">
+                        <Label.Triggers>
+                            <DataTrigger Binding="{Binding Completed}"
+                                         TargetType="Label"
+                                         Value="True">
+                                <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                <Setter Property="TextColor" Value="{StaticResource LightBlue}"/>
+                            </DataTrigger>
+                        </Label.Triggers>
+                    </Label>
+                    
+                </HorizontalStackLayout>
+            </Frame>
+        </DataTemplate>
+    </ContentPage.Resources>
+
+    <Grid Margin="0" RowDefinitions="Auto,Auto,*">
+
+        <!-- CATEGORIES -->
+        <Grid Grid.Row="1" Padding="24,0,24,10" RowDefinitions="Auto,Auto">
+            <Label Text="CATEGORIES" StyleClass="SectionLabel"/>
+            <CollectionView Grid.Row="1"
+                            ItemsSource="{Binding Categories}"
+                            ItemTemplate="{StaticResource CategoryTemplate}"
+                            HeightRequest="150">
                 <CollectionView.ItemsLayout>
-                    <LinearItemsLayout ItemSpacing="5" Orientation="Horizontal"/>
+                    <LinearItemsLayout ItemSpacing="12" Orientation="Horizontal"/>
                 </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="10">
-                            <RoundRectangle/>
-                            <VerticalStackLayout Padding="15" Spacing="10">
-                                <Label StyleClass="LightBlue" Text="{Binding PendingTasks, StringFormat='{0} Tasks'}"/>
-                                <Label StyleClass="DarkBlue, CardTitle"
-                                       Text="{Binding CategoryName}"/>
-                                <ProgressBar Progress="{Binding Percentage}" ProgressColor="{Binding Color}"/>
-                            </VerticalStackLayout>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
             </CollectionView>
         </Grid>
-        <Grid Grid.Row="2" RowDefinitions="0.2*,0.8*">
-            <Label StyleClass="LightBlue, SubHeader" Text="PENDING TASK"/>
-            <CollectionView Grid.Row="1" ItemsSource="{Binding Tasks}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BorderColor="Transparent">
-                            <HorizontalStackLayout>
-                                <CheckBox x:Name="checkBox"
-                                          IsChecked="{Binding Completed}"
-                                          VerticalOptions="Center"
-                                          CheckedChanged="checkBox_CheckedChanged"
-                                          Color="{Binding TaskColor}"/>
-                                <Label Text="{Binding TaskName}" VerticalOptions="Center">
-                                    <Label.Triggers>
-                                        <DataTrigger
-                                            Binding="{Binding Source={x:Reference checkBox}, Path=IsChecked}"
-                                            TargetType="Label"
-                                            Value="True">
-                                            <Setter Property="TextDecorations" Value="Strikethrough"/>
-                                        </DataTrigger>
-                                    </Label.Triggers>
-                                </Label>
-                            </HorizontalStackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+
+        <!-- TASKS -->
+        <Grid Grid.Row="2" Padding="24,10,24,0" RowDefinitions="Auto,*">
+            <Label Text="PENDING TASKS" StyleClass="SectionLabel"/>
+            <CollectionView Grid.Row="1"
+                            ItemsSource="{Binding Tasks}"
+                            ItemTemplate="{StaticResource TaskTemplate}"/>
         </Grid>
+
+        <!-- FAB -->
         <Button Grid.Row="2"
-                Clicked="Button_Clicked"
                 Text="+"
-                Style="{StaticResource CircularButton}"/>
+                Style="{StaticResource CircularButton}"
+                Clicked="Button_Clicked"/>
     </Grid>
 </ContentPage>
