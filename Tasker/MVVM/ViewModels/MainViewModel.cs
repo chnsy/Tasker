@@ -1,6 +1,7 @@
 ﻿using PropertyChanged;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 using Tasker.MVVM.Models;
 
 namespace Tasker.MVVM.ViewModels
@@ -11,10 +12,46 @@ namespace Tasker.MVVM.ViewModels
         public ObservableCollection<Category> Categories { get; set; } = new();
         public ObservableCollection<MyTask> Tasks { get; set; } = new();
 
+        public ICommand DeleteTaskCommand { get; set; }
+        public ICommand DeleteCategoryCommand { get; set; }
+
         public MainViewModel()
         {
+            DeleteTaskCommand = new Command<MyTask>(DeleteTask);
+            DeleteCategoryCommand = new Command<Category>(DeleteCategory);
             FillData();
         }
+
+        private void DeleteTask(MyTask task)
+        {
+            if (task == null) return;
+            Tasks.Remove(task);
+            UpdateData();
+        }
+
+        private async void DeleteCategory(Category category)
+        {
+            if (category == null) return;
+
+            Page? page = Application.Current?.Windows[0].Page;
+            if (page == null) return;
+
+            bool confirm = await page.DisplayAlert(
+                "Delete Category",
+                $"Delete \"{category.CategoryName}\" and all its tasks?",
+                "Delete", "Cancel");
+
+            if (!confirm) return;
+
+            // Remove all tasks under this category
+            var tasksToRemove = Tasks.Where(t => t.CategoryId == category.Id).ToList();
+            foreach (var t in tasksToRemove)
+                Tasks.Remove(t);
+
+            Categories.Remove(category);
+            UpdateData();
+        }
+
 
         //Sample data
         private void FillData()

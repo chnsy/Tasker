@@ -10,51 +10,72 @@
     <!-- DataTemplates -->
     <ContentPage.Resources>
         <DataTemplate x:Key="CategoryTemplate" x:DataType="model:Category">
-            <Grid Padding="5" HeightRequest="140" WidthRequest="165">
-                <RoundRectangle/>
-                <VerticalStackLayout Padding="18" Spacing="8">
-                    <Label Text="{Binding PendingTasks, StringFormat='{0} Tasks'}"
-                           StyleClass="LightBlue"/>
-                    <Label Text="{Binding CategoryName}"
-                           StyleClass="CardTitle"
-                           TextColor="White"
-                           LineBreakMode="WordWrap"/>
-                    <VerticalStackLayout Spacing="4" Margin="0,4,0,0">
-                        <Label Text="Progress"
-                               FontSize="10"
-                               TextColor="{StaticResource LightBlue}"/>
-                        <ProgressBar Progress="{Binding Percentage}"
-                                     ProgressColor="{Binding Color}"
-                                     BackgroundColor="{StaticResource ProgressTrack}"
-                                     HeightRequest="6"/>
+            <SwipeView>
+                <SwipeView.BottomItems>
+                    <SwipeItems>
+                        <SwipeItem Text="Delete"
+                           BackgroundColor="#E53935"
+                           Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DeleteCategoryCommand}"
+                           CommandParameter="{Binding .}"/>
+                    </SwipeItems>
+                </SwipeView.BottomItems>
+
+                <Grid Padding="5" HeightRequest="140" WidthRequest="165">
+                    <RoundRectangle/>
+                    <VerticalStackLayout Padding="18" Spacing="8">
+                        <Label Text="{Binding PendingTasks, StringFormat='{0} Tasks'}"
+                       StyleClass="LightBlue"/>
+                        <Label Text="{Binding CategoryName}"
+                       StyleClass="CardTitle"
+                       TextColor="White"
+                       LineBreakMode="WordWrap"/>
+                        <VerticalStackLayout Spacing="4" Margin="0,4,0,0">
+                            <Label Text="Progress"
+                           FontSize="10"
+                           TextColor="{StaticResource LightBlue}"/>
+                            <ProgressBar Progress="{Binding Percentage}"
+                                 ProgressColor="{Binding Color}"
+                                 BackgroundColor="{StaticResource ProgressTrack}"
+                                 HeightRequest="6"/>
+                        </VerticalStackLayout>
                     </VerticalStackLayout>
-                </VerticalStackLayout>
-            </Grid>
+                </Grid>
+            </SwipeView>
         </DataTemplate>
 
         <DataTemplate x:Key="TaskTemplate" x:DataType="model:MyTask">
-            <Frame Style="{StaticResource TaskCard}">
-                <HorizontalStackLayout Spacing="14">
-                    <CheckBox x:Name="checkBox"
-                              IsChecked="{Binding Completed}"
-                              VerticalOptions="Center"
-                              CheckedChanged="checkBox_CheckedChanged"
-                              Color="{Binding TaskColor}"/>
-                    <Label Text="{Binding TaskName}"
-                           StyleClass="DarkBlue, CardTitle"
-                           VerticalOptions="Center" >
-                        <Label.Triggers>
-                            <DataTrigger Binding="{Binding Completed}"
-                                         TargetType="Label"
-                                         Value="True">
-                                <Setter Property="TextDecorations" Value="Strikethrough"/>
-                                <Setter Property="TextColor" Value="{StaticResource LightBlue}"/>
-                            </DataTrigger>
-                        </Label.Triggers>
-                    </Label>
-                    
-                </HorizontalStackLayout>
-            </Frame>
+            <SwipeView>
+                <SwipeView.RightItems>
+                    <SwipeItems>
+                        <SwipeItem Text="Delete"
+                           BackgroundColor="#E53935"
+                           Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=DeleteTaskCommand}"
+                           CommandParameter="{Binding .}"/>
+                    </SwipeItems>
+                </SwipeView.RightItems>
+
+                <Frame Style="{StaticResource TaskCard}">
+                    <HorizontalStackLayout Spacing="14">
+                        <CheckBox x:Name="checkBox"
+                          IsChecked="{Binding Completed}"
+                          VerticalOptions="Center"
+                          CheckedChanged="checkBox_CheckedChanged"
+                          Color="{Binding TaskColor}"/>
+                        <Label Text="{Binding TaskName}"
+                       StyleClass="DarkBlue, CardTitle"
+                       VerticalOptions="Center">
+                            <Label.Triggers>
+                                <DataTrigger Binding="{Binding Completed}"
+                                     TargetType="Label"
+                                     Value="True">
+                                    <Setter Property="TextDecorations" Value="Strikethrough"/>
+                                    <Setter Property="TextColor" Value="{StaticResource LightBlue}"/>
+                                </DataTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </HorizontalStackLayout>
+                </Frame>
+            </SwipeView>
         </DataTemplate>
     </ContentPage.Resources>
 
