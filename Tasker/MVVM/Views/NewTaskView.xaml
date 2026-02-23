@@ -21,15 +21,21 @@
 
         <!-- CONTENT -->
         <ScrollView Grid.Row="1">
-            <VerticalStackLayout Padding="28,32" Spacing="16">
+            <VerticalStackLayout Padding="28, 10" Spacing="15" BackgroundColor="White">
 
                 <Label Text="Task Name" StyleClass="SectionLabel"/>
-                <Entry Placeholder="e.g. UI Design"
-                       Text="{Binding TaskName}"
-                       Style="{StaticResource Task}"
-                       FontSize="14"
-                       TextColor="{StaticResource DarkBlue}"
-                       PlaceholderColor="{StaticResource LightBlue}"/>
+                <Border Stroke="{StaticResource LightBlue}"
+                        StrokeThickness="1"
+                        StrokeShape="RoundRectangle 12"
+                        Padding="12,4"
+                        BackgroundColor="White">
+                        <Entry Placeholder="e.g. UI Design"
+                           Text="{Binding TaskName}"
+                           Style="{StaticResource Task}"
+                           FontSize="15"
+                           TextColor="{StaticResource DarkBlue}"
+                           PlaceholderColor="{StaticResource LightBlue}"/>
+                </Border>
 
                 <Label Text="Category" StyleClass="SectionLabel"/>
                 <CollectionView ItemsSource="{Binding Categories}"

@@ -41,7 +41,7 @@
                               CheckedChanged="checkBox_CheckedChanged"
                               Color="{Binding TaskColor}"/>
                     <Label Text="{Binding TaskName}"
-                           StyleClass="White, CardTitle"
+                           StyleClass="DarkBlue, CardTitle"
                            VerticalOptions="Center" >
                         <Label.Triggers>
                             <DataTrigger Binding="{Binding Completed}"
@@ -66,7 +66,7 @@
             <CollectionView Grid.Row="1"
                             ItemsSource="{Binding Categories}"
                             ItemTemplate="{StaticResource CategoryTemplate}"
-                            HeightRequest="150">
+                            HeightRequest="155">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout ItemSpacing="12" Orientation="Horizontal"/>
                 </CollectionView.ItemsLayout>
@@ -74,7 +74,7 @@
         </Grid>
 
         <!-- TASKS -->
-        <Grid Grid.Row="2" Padding="24,10,24,0" RowDefinitions="Auto,*">
+        <Grid Grid.Row="2" Padding="24,0,24,0" RowDefinitions="Auto,*">
             <Label Text="PENDING TASKS" StyleClass="SectionLabel"/>
             <CollectionView Grid.Row="1"
                             ItemsSource="{Binding Tasks}"
